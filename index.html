@@ -1,140 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chang Open Countdown</title>
-  <style>
-    body{
-      margin:0;
-      background:#0b3d2e;
-      color:#ffffff;
-      font-family:Arial,Helvetica,sans-serif;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:100vh;
-      padding:24px;
-      /* Mobile layout optimisation */
-@media (max-width: 480px) {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chang Open Countdown</title>
 
-  body {
-    align-items: flex-start;
-    padding-top: 10px;
-  }
-
-  .wrap {
-    margin-top: 0;
-  }
-
-  .logo img {
-    height: 150px; /* slightly smaller for balance */
-    margin-bottom: 12px;
-  }
-
-  .timer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .box {
-    padding: 14px;
-    border-radius: 14px;
-  }
-
-  .num {
-    font-size: 38px;
-  }
-
-  .label {
-    font-size: 11px;
-    letter-spacing: 1.5px;
-  }
+<style>
+/* Base layout */
+body{
+  margin:0;
+  background:#0b3d2e;
+  color:#ffffff;
+  font-family:Arial, Helvetica, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:24px;
 }
 
-    }
-    .wrap{ text-align:center; }
-    .logo{ margin-bottom:50px; }
-    .logo img{ height:520px; max-width:120vw; object-fit:contain; }
-    .timer{
-      display:flex;
-      gap:14px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-    .box{
-      border:3px solid #caa64b;
-      border-radius:16px;
-      padding:18px;
-      min-width:140px;
-      background:#0f5a3c;
-    }
-    .num{ font-size:48px; font-weight:bold; }
-    .label{ font-size:12px; letter-spacing:2px; }
-  </style>
+.wrap{
+  text-align:center;
+}
+
+.logo img{
+  height:260px;
+  max-width:90vw;
+  object-fit:contain;
+  margin-bottom:24px;
+}
+
+.timer{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.box{
+  border:3px solid #caa64b;
+  border-radius:16px;
+  padding:18px;
+  min-width:140px;
+  background:#0f5a3c;
+}
+
+.num{
+  font-size:48px;
+  font-weight:bold;
+}
+
+.label{
+  font-size:12px;
+  letter-spacing:2px;
+}
+
+/* Mobile optimisation */
+@media (max-width: 480px){
+  body{
+    align-items:flex-start;
+    padding:12px 16px 24px;
+  }
+
+  .logo img{
+    height:150px;
+    margin-bottom:12px;
+  }
+
+  .timer{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    width:100%;
+    max-width:420px;
+    margin:0 auto;
+  }
+
+  .box{
+    min-width:0;
+    width:100%;
+    padding:14px;
+    border-radius:14px;
+  }
+
+  .num{
+    font-size:38px;
+    line-height:1;
+  }
+
+  .label{
+    font-size:11px;
+    letter-spacing:1.5px;
+  }
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="logo">
-      <img src="logo.png?v=10" alt="Chang Open Logo">
-    </div>
 
-    <div class="timer">
-      <div class="box"><div class="num" id="d">00</div><div class="label">DAYS</div></div>
-      <div class="box"><div class="num" id="h">00</div><div class="label">HOURS</div></div>
-      <div class="box"><div class="num" id="m">00</div><div class="label">MINUTES</div></div>
-      <div class="box"><div class="num" id="s">00</div><div class="label">SECONDS</div></div>
-    </div>
+<div class="wrap">
+  <div class="logo">
+    <img src="logo.png?v=200" alt="Chang Open Logo">
   </div>
 
-  <script>
-    // Target: 14 Jan 2026 11:10 Dubai time (UTC+4)
-    const target = new Date("2026-01-14T11:10:00+04:00").getTime();
+  <div class="timer">
+    <div class="box"><div class="num" id="d">00</div><div class="label">DAYS</div></div>
+    <div class="box"><div class="num" id="h">00</div><div class="label">HOURS</div></div>
+    <div class="box"><div class="num" id="m">00</div><div class="label">MINUTES</div></div>
+    <div class="box"><div class="num" id="s">00</div><div class="label">SECONDS</div></div>
+  </div>
+</div>
 
-    function updateCountdown() {
-      const now = new Date();
-      const dubaiNow = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Dubai" })).getTime();
-      const diff = target - dubaiNow;
+<script>
+/* Countdown to 14 Jan 2026 11:10 Dubai time */
+const target = new Date("2026-01-14T11:10:00+04:00").getTime();
 
-      if (diff <= 0) {
-        document.getElementById("d").textContent = "00";
-        document.getElementById("h").textContent = "00";
-        document.getElementById("m").textContent = "00";
-        document.getElementById("s").textContent = "00";
-        return;
-      }
+function updateCountdown(){
+  const now = new Date();
+  const dubaiNow = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Dubai" })
+  ).getTime();
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hrs  = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const mins = Math.floor((diff / (1000 * 60)) % 60);
-      const secs = Math.floor((diff / 1000) % 60);
+  const diff = target - dubaiNow;
 
-      document.getElementById("d").textContent = String(days).padStart(2,"0");
-      document.getElementById("h").textContent = String(hrs).padStart(2,"0");
-      document.getElementById("m").textContent = String(mins).padStart(2,"0");
-      document.getElementById("s").textContent = String(secs).padStart(2,"0");
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
-</body>
-</html>
-@media (max-width: 480px){
-  body{ padding:16px; }
-  .logo img{ height:180px; }
-  .timer{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:10px;
+  if (diff <= 0){
+    document.getElementById("d").textContent = "00";
+    document.getElementById("h").textContent = "00";
+    document.getElementById("m").textContent = "00";
+    document.getElementById("s").textContent = "00";
+    return;
   }
-  .box{
-    min-width: 0;
-    width: 100%;
-    padding:14px;
-  }
-  .num{ font-size:40px; }
+
+  document.getElementById("d").textContent =
+    Math.floor(diff / (1000*60*60*24));
+
+  document.getElementById("h").textContent =
+    Math.floor((diff / (1000*60*60)) % 24);
+
+  document.getElementById("m").textContent =
+    Math.floor((diff / (1000*60)) % 60);
+
+  document.getElementById("s").textContent =
+    Math.floor((diff / 1000) % 60);
 }
 
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
