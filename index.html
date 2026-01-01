@@ -24,7 +24,7 @@ body{
 
 /* BIG DESKTOP LOGO */
 .logo img{
-  height:540px;              /* YOUR REQUEST */
+  height:540px;
   max-width:95vw;
   object-fit:contain;
   margin-bottom:28px;
@@ -57,13 +57,11 @@ body{
 
 /* ===== MOBILE (IPHONE) ===== */
 @media (max-width: 480px){
-
   body{
     align-items:flex-start;
     padding-top:6px;
   }
 
-  /* BIG HERO LOGO ON MOBILE */
   .logo img{
     height:220px;
     margin-bottom:14px;
@@ -71,14 +69,15 @@ body{
 
   /* FORCE TIMER INTO ONE LINE */
   .timer{
-    flex-wrap:nowrap;            /* KEY LINE */
-    overflow-x:auto;             /* allow fit */
+    flex-wrap:nowrap;
+    overflow-x:auto;
     gap:8px;
-    padding-bottom:4px;
+    padding:0 10px 4px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .box{
-    min-width:82px;              /* compact */
+    min-width:82px;
     padding:10px 6px;
     border-radius:12px;
     flex:0 0 auto;
@@ -100,47 +99,60 @@ body{
 <body>
 
 <div class="wrap">
-
-  <!-- LOGO -->
   <div class="logo">
-    <img src="logo.png?v=500" alt="Chang Open Logo">
+    <img src="logo.png?v=900" alt="Chang Open Logo">
   </div>
 
-  <!-- COUNTDOWN -->
   <div class="timer">
     <div class="box"><div class="num" id="d">00</div><div class="label">DAYS</div></div>
     <div class="box"><div class="num" id="h">00</div><div class="label">HOURS</div></div>
     <div class="box"><div class="num" id="m">00</div><div class="label">MINUTES</div></div>
     <div class="box"><div class="num" id="s">00</div><div class="label">SECONDS</div></div>
   </div>
-
 </div>
 
 <script>
-/* Countdown to 14 Jan 2026 – 11:10 Dubai Time */
-const target = new Date("2026-01-14T11:10:00+04:00").getTime();
+  // ✅ Target: 14 Jan 2026 12:00 AM (00:00) Dubai time (UTC+4)
+  const TARGET_MS = new Date("2026-01-14T00:00:00+04:00").getTime();
 
-function updateCountdown(){
-  const now = new Date();
-  const dubaiNow = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Dubai" })
-  ).getTime();
-
-  const diff = target - dubaiNow;
-
-  if (diff <= 0) {
-    d.textContent = h.textContent = m.textContent = s.textContent = "00";
-    return;
+  function nowDubaiMs(){
+    // Create a Dubai-time “now” reliably
+    const now = new Date();
+    const dubaiStr = now.toLocaleString("en-US", { timeZone: "Asia/Dubai" });
+    return new Date(dubaiStr).getTime();
   }
 
-  d.textContent = Math.floor(diff / (1000*60*60*24));
-  h.textContent = Math.floor((diff / (1000*60*60)) % 24);
-  m.textContent = Math.floor((diff / (1000*60)) % 60);
-  s.textContent = Math.floor((diff / 1000) % 60);
-}
+  function pad2(n){ return String(n).padStart(2,"0"); }
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
+  function tick(){
+    const dEl = document.getElementById("d");
+    const hEl = document.getElementById("h");
+    const mEl = document.getElementById("m");
+    const sEl = document.getElementById("s");
+
+    const diff = TARGET_MS - nowDubaiMs();
+
+    if (diff <= 0){
+      dEl.textContent = "00";
+      hEl.textContent = "00";
+      mEl.textContent = "00";
+      sEl.textContent = "00";
+      return;
+    }
+
+    const days = Math.floor(diff / 86400000);
+    const hrs  = Math.floor(diff / 3600000) % 24;
+    const mins = Math.floor(diff / 60000) % 60;
+    const secs = Math.floor(diff / 1000) % 60;
+
+    dEl.textContent = pad2(days);
+    hEl.textContent = pad2(hrs);
+    mEl.textContent = pad2(mins);
+    sEl.textContent = pad2(secs);
+  }
+
+  tick();
+  setInterval(tick, 1000);
 </script>
 
 </body>
