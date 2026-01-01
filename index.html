@@ -18,26 +18,36 @@
     padding:24px;
   }
   .wrap{ text-align:center; }
-  .logo{ margin-bottom:18px; }
+  .logo{ margin-bottom:22px; }
   .logo img{ height:260px; }
-  
-  .timer{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .timer{
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
   .box{
     border:3px solid #caa64b;
     border-radius:16px;
     padding:18px;
-    min-width:130px;
+    min-width:140px;
     background:#0f5a3c;
   }
-  .num{ font-size:48px; font-weight:bold; }
-  .label{ font-size:12px; letter-spacing:2px; }
+  .num{
+    font-size:48px;
+    font-weight:bold;
+  }
+  .label{
+    font-size:12px;
+    letter-spacing:2px;
+  }
 </style>
 </head>
 
 <body>
   <div class="wrap">
     <div class="logo">
-      <img src="logo.png?v=3" alt="Chang Open Logo">
+      <img src="logo.png?v=4" alt="Chang Open Logo">
     </div>
 
     <div class="timer">
@@ -52,14 +62,7 @@
   // Target: 14 Jan 2026 11:10 Dubai time (UTC+4)
   const TARGET_MS = new Date("2026-01-14T11:10:00+04:00").getTime();
 
-  const dEl = document.getElementById("d");
-  const hEl = document.getElementById("h");
-  const mEl = document.getElementById("m");
-  const sEl = document.getElementById("s");
-  const debugEl = document.getElementById("debug");
-
   function nowDubaiMs() {
-    // Reliable Dubai “now” without depending on auto-global variables
     const parts = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Asia/Dubai",
       year: "numeric", month: "2-digit", day: "2-digit",
@@ -67,34 +70,9 @@
       hour12: false
     }).formatToParts(new Date());
 
-    const get = (type) => parts.find(p => p.type === type).value;
+    const get = (t) => parts.find(p => p.type === t).value;
     const yyyy = get("year"), mm = get("month"), dd = get("day");
     const HH = get("hour"), MI = get("minute"), SS = get("second");
+
     return new Date(`${yyyy}-${mm}-${dd}T${HH}:${MI}:${SS}+04:00`).getTime();
   }
-
-  function tick() {
-    debugEl.textContent = "JS IS RUNNING ✅";
-
-    const diff = TARGET_MS - nowDubaiMs();
-    if (diff <= 0) {
-      dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = "00";
-      return;
-    }
-
-    const days = Math.floor(diff / 86400000);
-    const hrs  = Math.floor(diff / 3600000) % 24;
-    const mins = Math.floor(diff / 60000) % 60;
-    const secs = Math.floor(diff / 1000) % 60;
-
-    dEl.textContent = String(days).padStart(2,"0");
-    hEl.textContent = String(hrs).padStart(2,"0");
-    mEl.textContent = String(mins).padStart(2,"0");
-    sEl.textContent = String(secs).padStart(2,"0");
-  }
-
-  tick();
-  setInterval(tick, 1000);
-</script>
-</body>
-</html>
