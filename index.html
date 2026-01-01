@@ -16,7 +16,6 @@ body{
   justify-content:center;
   align-items:center;
   min-height:100vh;
-  padding:24px;
 }
 
 .wrap{
@@ -24,10 +23,10 @@ body{
 }
 
 .logo img{
-  height:260px;
+  height:240px;
   max-width:90vw;
   object-fit:contain;
-  margin-bottom:24px;
+  margin-bottom:18px;
 }
 
 .timer{
@@ -59,32 +58,36 @@ body{
 @media (max-width: 480px){
   body{
     align-items:flex-start;
-    padding:12px 16px 24px;
+    padding-top:8px;
+  }
+
+  .wrap{
+    margin-top:0;
   }
 
   .logo img{
-    height:150px;
-    margin-bottom:12px;
+    height:165px;
+    margin-bottom:10px;
   }
 
   .timer{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:12px;
+    gap:10px;
     width:100%;
-    max-width:420px;
+    max-width:360px;
     margin:0 auto;
   }
 
   .box{
     min-width:0;
     width:100%;
-    padding:14px;
+    padding:12px;
     border-radius:14px;
   }
 
   .num{
-    font-size:38px;
+    font-size:36px;
     line-height:1;
   }
 
@@ -100,7 +103,7 @@ body{
 
 <div class="wrap">
   <div class="logo">
-    <img src="logo.png?v=200" alt="Chang Open Logo">
+    <img src="logo.png?v=300" alt="Chang Open Logo">
   </div>
 
   <div class="timer">
@@ -112,7 +115,6 @@ body{
 </div>
 
 <script>
-/* Countdown to 14 Jan 2026 11:10 Dubai time */
 const target = new Date("2026-01-14T11:10:00+04:00").getTime();
 
 function updateCountdown(){
@@ -123,25 +125,15 @@ function updateCountdown(){
 
   const diff = target - dubaiNow;
 
-  if (diff <= 0){
-    document.getElementById("d").textContent = "00";
-    document.getElementById("h").textContent = "00";
-    document.getElementById("m").textContent = "00";
-    document.getElementById("s").textContent = "00";
+  if (diff <= 0) {
+    d.textContent = h.textContent = m.textContent = s.textContent = "00";
     return;
   }
 
-  document.getElementById("d").textContent =
-    Math.floor(diff / (1000*60*60*24));
-
-  document.getElementById("h").textContent =
-    Math.floor((diff / (1000*60*60)) % 24);
-
-  document.getElementById("m").textContent =
-    Math.floor((diff / (1000*60)) % 60);
-
-  document.getElementById("s").textContent =
-    Math.floor((diff / 1000) % 60);
+  d.textContent = Math.floor(diff / (1000*60*60*24));
+  h.textContent = Math.floor((diff / (1000*60*60)) % 24);
+  m.textContent = Math.floor((diff / (1000*60)) % 60);
+  s.textContent = Math.floor((diff / 1000) % 60);
 }
 
 updateCountdown();
