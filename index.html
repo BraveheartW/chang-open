@@ -15,6 +15,44 @@
       justify-content:center;
       min-height:100vh;
       padding:24px;
+      /* Mobile layout optimisation */
+@media (max-width: 480px) {
+
+  body {
+    align-items: flex-start;
+    padding-top: 10px;
+  }
+
+  .wrap {
+    margin-top: 0;
+  }
+
+  .logo img {
+    height: 150px; /* slightly smaller for balance */
+    margin-bottom: 12px;
+  }
+
+  .timer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .box {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .num {
+    font-size: 38px;
+  }
+
+  .label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+}
+
     }
     .wrap{ text-align:center; }
     .logo{ margin-bottom:50px; }
