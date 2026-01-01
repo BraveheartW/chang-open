@@ -1,93 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Chang Open Countdown</title>
-
-<style>
-body{
-  margin:0;
-  background:#0b3d2e;
-  color:#ffffff;
-  font-family:Arial,Helvetica,sans-serif;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-}
-.wrap{
-  text-align:center;
-}
-.logo{
-  margin-bottom:20px;
-}
-.logo img{
-  height:120px;
-}
-.timer{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.box{
-  border:3px solid #caa64b;
-  border-radius:16px;
-  padding:18px;
-  min-width:130px;
-  background:#0f5a3c;
-}
-.num{
-  font-size:48px;
-  font-weight:bold;
-}
-.label{
-  font-size:12px;
-  letter-spacing:2px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="wrap">
-
-  <div class="logo">
-    <img src="https://upload.wikimedia.org/wikipedia/en/8/8a/Chang_Beer_logo.svg" alt="Chang Logo">
-  </div>
-
-  <div class="timer">
-    <div class="box"><div class="num" id="d">00</div><div class="label">DAYS</div></div>
-    <div class="box"><div class="num" id="h">00</div><div class="label">HOURS</div></div>
-    <div class="box"><div class="num" id="m">00</div><div class="label">MINUTES</div></div>
-    <div class="box"><div class="num" id="s">00</div><div class="label">SECONDS</div></div>
-  </div>
-
-</div>
-
 <script>
 const target = new Date("2026-01-14T11:10:00+04:00").getTime();
 
 function nowDubai(){
-  return new Date(
-    new Date().toLocaleString("en-US",{timeZone:"Asia/Dubai"})
-  );
+  return new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Dubai"}));
 }
 
 function tick(){
   const diff = target - nowDubai().getTime();
   if(diff < 0) return;
 
-  d.textContent = Math.floor(diff / 86400000);
-  h.textContent = Math.floor(diff / 3600000) % 24;
-  m.textContent = Math.floor(diff / 60000) % 60;
-  s.textContent = Math.floor(diff / 1000) % 60;
+  const dEl = document.getElementById("d");
+  const hEl = document.getElementById("h");
+  const mEl = document.getElementById("m");
+  const sEl = document.getElementById("s");
+
+  const days = Math.floor(diff / 86400000);
+  const hrs  = Math.floor(diff / 3600000) % 24;
+  const mins = Math.floor(diff / 60000) % 60;
+  const secs = Math.floor(diff / 1000) % 60;
+
+  dEl.textContent = String(days).padStart(2,"0");
+  hEl.textContent = String(hrs).padStart(2,"0");
+  mEl.textContent = String(mins).padStart(2,"0");
+  sEl.textContent = String(secs).padStart(2,"0");
 }
 
 tick();
 setInterval(tick,1000);
 </script>
-
-</body>
-</html>
